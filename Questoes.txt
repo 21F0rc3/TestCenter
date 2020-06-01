@@ -1,0 +1,26 @@
+[
+  {
+   "pergunta": "Quem é o melhor jogador de futebol?",
+   "tipo": "escolha unica",
+   "opcoes": ["Messi", "Neymar", "C. Ronaldo", "Pele"],
+   "resposta": "C. Ronaldo"
+  },
+  {
+   "pergunta": "Qual o numero que ao quadrado da 4?",
+   "tipo": "escolha multipla",
+   "opcoes": ["1", "-2", "2", "-1"],
+   "resposta": ["-2","2"]
+  },
+  {
+   "pergunta": "O Porto e o melhor clube de sempre?",
+   "tipo": "V ou F",
+   "opcoes": ["Sim", "Nao"],
+   "resposta": "Sim"
+  },
+  {
+   "pergunta": "O rato roi a ",
+   "tipo": "completar",
+   "opcoes": "",
+   "resposta": "rolha"
+  }
+]

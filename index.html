@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <script src="jquery.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <body>
+      <button id="start" onclick="start()">Start</button>
+      <div id="Test"></div>
+      <div><button onclick="perguntaAnterior()">Anterior</button></div>
+      <div><button onclick="perguntaSeguinte()">Seguinte</button></div>
+    </body>
+    <script>
+    var IndexDeQuestoes = 0;
+    var arrayQuestoes;
+
+    var score = 0;
+
+    function start() {
+      var xmlhttp = new XMLHttpRequest();
+
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          arrayQuestoes = JSON.parse(this.responseText);
+          fillQuestoes(arrayQuestoes);
+        }
+      };
+
+      xmlhttp.open("GET", "Questoes.txt", true);
+      xmlhttp.send();
+
+      $("#start").addClass("d-none");
+
+      return arrayQuestoes;
+    }
+
+    function fillQuestoes(arrayQuestoes) {
+      var teste = $("#Test");
+      let tam = arrayQuestoes.length;
+      for(i=0; i<tam; i++) {
+        $("#Test").append("<div id='Questao"+i+"'></div>");
+
+        $("#Questao"+i).append("<div>"+arrayQuestoes[i].pergunta+"</div>");
+        $("#Questao"+i).attr("class", "d-none");
+
+        if(arrayQuestoes[i].tipo == "escolha unica" || arrayQuestoes[i].tipo == "escolha multipla") {
+          for(j=0; j<4; j++) {
+            $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+            $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
+          }
+        }
+
+        if(arrayQuestoes[i].tipo == "V ou F") {
+          for(j=0; j<2; j++) {
+            $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+            $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
+          }
+        }
+
+        if(arrayQuestoes[i].tipo == "completar") {
+          $("#Questao"+i).append("<input type='text' value=''>")
+        }
+      }
+      $("#Questao0").attr("class", "d-block");
+    }
+
+    function opcaoSelecionada() {
+      $(".Opcao").css("backgroundColor", "white");
+      this.style.backgroundColor = "black";
+    }
+
+    function perguntaAnterior() {
+      $("#Questao"+IndexDeQuestoes).attr("class", "d-none");
+      IndexDeQuestoes--;
+      $("#Questao"+IndexDeQuestoes).attr("class", "d-block");
+      return IndexDeQuestoes;
+    }
+
+    function perguntaSeguinte() {
+      $("#Questao"+IndexDeQuestoes).children(".Opcao").unbind("click");
+      $("#Questao"+IndexDeQuestoes).children(".Opcao").attr("class", "");
+
+      $("#Questao"+IndexDeQuestoes).children("input").attr("readonly", true);
+
+      $("#Questao"+IndexDeQuestoes).attr("class", "d-none");
+      IndexDeQuestoes++;
+      $("#Questao"+IndexDeQuestoes).attr("class", "d-block");
+      return IndexDeQuestoes;
+    }
+    </script>
+</html>
