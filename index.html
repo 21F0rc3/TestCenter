@@ -6,15 +6,17 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <body>
-      <button id="start" onclick="start()">Start</button>
-      <div id="Test"></div>
-      <div><button onclick="perguntaAnterior()">Anterior</button></div>
-      <div><button onclick="perguntaSeguinte()">Seguinte</button></div>
-    </body>
-    <script>
+    <button id="start" onclick="start()">Start</button>
+    <div id="Test"></div>
+    <div><button id="prev" onclick="perguntaAnterior()">Anterior</button></div>
+    <div><button onclick="acabarTeste()">Acabar o Teste</button></div>
+    <div><button id="next" onclick="perguntaSeguinte()">Seguinte</button></div>
+  </body>
+  <script>
     var IndexDeQuestoes = 0;
     var arrayQuestoes;
+
+    var nrDeSelecionada = 0;
 
     var score = 0;
 
@@ -31,7 +33,8 @@
       xmlhttp.open("GET", "Questoes.txt", true);
       xmlhttp.send();
 
-      $("#start").addClass("d-none");
+      $("#start").css("display", "none");
+      $("#prev").css("display", "none");
 
       return arrayQuestoes;
     }
@@ -45,7 +48,14 @@
         $("#Questao"+i).append("<div>"+arrayQuestoes[i].pergunta+"</div>");
         $("#Questao"+i).attr("class", "d-none");
 
-        if(arrayQuestoes[i].tipo == "escolha unica" || arrayQuestoes[i].tipo == "escolha multipla") {
+        if(arrayQuestoes[i].tipo == "escolha unica") {
+          for(j=0; j<4; j++) {
+            $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+            $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
+          }
+        }
+
+        if(arrayQuestoes[i].tipo == "escolha multipla") {
           for(j=0; j<4; j++) {
             $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
             $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
@@ -67,14 +77,34 @@
     }
 
     function opcaoSelecionada() {
-      $(".Opcao").css("backgroundColor", "white");
-      this.style.backgroundColor = "black";
+      if(arrayQuestoes[IndexDeQuestoes].tipo == "escolha multipla") {
+        if($(this).css("background-color") == "rgb(0, 0, 0)") {
+          $(this).css("background-color", "white");
+          nrDeSelecionada--;
+          return nrDeSelecionada;
+        }else if(nrDeSelecionada < 2) {
+          $(this).css("background-color", "rgb(0, 0, 0)");
+          nrDeSelecionada++;
+          return nrDeSelecionada;
+        }
+      }else {
+        $(".Opcao").css("backgroundColor", "white");
+        $(this).css("background-color", "rgb(0, 0, 0)");
+      }
     }
 
     function perguntaAnterior() {
-      $("#Questao"+IndexDeQuestoes).attr("class", "d-none");
+      $("#Questao"+IndexDeQuestoes).css("display", "none");
       IndexDeQuestoes--;
-      $("#Questao"+IndexDeQuestoes).attr("class", "d-block");
+      $("#Questao"+IndexDeQuestoes).css("display", "block");
+
+      if(IndexDeQuestoes <= 0) {
+        $("#prev").css("display", "none");
+      }
+
+      if($("#next").css("display") == "none") {
+        $("#next").css("display", "block");
+      }
       return IndexDeQuestoes;
     }
 
@@ -84,10 +114,65 @@
 
       $("#Questao"+IndexDeQuestoes).children("input").attr("readonly", true);
 
-      $("#Questao"+IndexDeQuestoes).attr("class", "d-none");
+      $("#Questao"+IndexDeQuestoes).css("display", "none");
       IndexDeQuestoes++;
-      $("#Questao"+IndexDeQuestoes).attr("class", "d-block");
+      $("#Questao"+IndexDeQuestoes).css("display", "block");
+
+      if(IndexDeQuestoes >= arrayQuestoes.length - 1) {
+        $("#next").css("display", "none");
+      }
+
+      if($("#prev").css("display") == "none") {
+        $("#prev").css("display", "block");
+      }
+
       return IndexDeQuestoes;
     }
-    </script>
+
+    function acabarTeste() {
+      checkResposta();
+      alert(score);
+    }
+
+    function checkResposta() {
+      for(i=0; i<arrayQuestoes.length; i++) {
+        if(arrayQuestoes[i].tipo == "escolha unica") {
+          for(j=0; j<4; j++) {
+            var questaoSelecionada = $("#Questao"+i).children("#Opcao_"+j);
+            if($(questaoSelecionada).css("background-color") == "rgb(0, 0, 0)") {
+              if($(questaoSelecionada).text() == arrayQuestoes[i].resposta) {
+                score+=5;
+              }
+            }
+          }
+        }else if(arrayQuestoes[i].tipo == "escolha multipla") {
+          var nrOpcoesSelecionadas=0;
+          for(j=0; j<4; j++) {
+            var questaoSelecionada = $("#Questao"+i).children("#Opcao_"+j);
+            if($(questaoSelecionada).css("background-color") == "rgb(0, 0, 0)") {
+              for(s=0; s<2; s++) {
+                if($(questaoSelecionada).text() == arrayQuestoes[i].resposta[s]) {
+                  score+=2.5;
+                }
+              }
+            }
+          }
+        }else if(arrayQuestoes[i].tipo == "V ou F") {
+          for(j=0; j<2; j++) {
+            var questaoSelecionada = $("#Questao"+i).children("#Opcao_"+j);
+            if($(questaoSelecionada).css("background-color") == "rgb(0, 0, 0)") {
+              if($(questaoSelecionada).text() == arrayQuestoes[i].resposta) {
+                score+=5;
+              }
+            }
+          }
+        }else if(arrayQuestoes[i].tipo == "completar") {
+          if($("#Questao"+i).children("input").val() == arrayQuestoes[i].resposta) {
+            score+=5;
+          }
+        }
+      }
+      return score;
+    }
+  </script>
 </html>
