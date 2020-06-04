@@ -6,15 +6,22 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <div id="timer"></div>
     <button id="start" onclick="start()">Start</button>
     <div id="Test"></div>
-    <div><button id="prev" onclick="perguntaAnterior()">Anterior</button></div>
-    <div><button onclick="acabarTeste()">Acabar o Teste</button></div>
-    <div><button id="next" onclick="perguntaSeguinte()">Seguinte</button></div>
+    <div id="Controlos">
+      <button id="prev" onclick="perguntaAnterior()">Anterior</button>
+      <button onclick="acabarTeste()">Acabar o Teste</button>
+      <button id="next" onclick="perguntaSeguinte()">Seguinte</button>
+    </div>
   </body>
   <script>
     var IndexDeQuestoes = 0;
     var arrayQuestoes;
+
+    var count = 45 * 60;
+    var minutos = count / 60;
+    var segundos = 0;
 
     var nrDeSelecionada = 0;
 
@@ -36,6 +43,8 @@
       $("#start").css("display", "none");
       $("#prev").css("display", "none");
 
+      countdown();
+
       return arrayQuestoes;
     }
 
@@ -45,7 +54,7 @@
       for(i=0; i<tam; i++) {
         $("#Test").append("<div id='Questao"+i+"'></div>");
 
-        $("#Questao"+i).append("<div>"+arrayQuestoes[i].pergunta+"</div>");
+        $("#Questao"+i).append("<div class='Questao'>"+arrayQuestoes[i].pergunta+"</div>");
         $("#Questao"+i).attr("class", "d-none");
 
         if(arrayQuestoes[i].tipo == "escolha unica") {
@@ -96,14 +105,14 @@
     function perguntaAnterior() {
       $("#Questao"+IndexDeQuestoes).css("display", "none");
       IndexDeQuestoes--;
-      $("#Questao"+IndexDeQuestoes).css("display", "block");
+      $("#Questao"+IndexDeQuestoes).css("display", "inline");
 
       if(IndexDeQuestoes <= 0) {
         $("#prev").css("display", "none");
       }
 
       if($("#next").css("display") == "none") {
-        $("#next").css("display", "block");
+        $("#next").css("display", "inline");
       }
       return IndexDeQuestoes;
     }
@@ -116,14 +125,14 @@
 
       $("#Questao"+IndexDeQuestoes).css("display", "none");
       IndexDeQuestoes++;
-      $("#Questao"+IndexDeQuestoes).css("display", "block");
+      $("#Questao"+IndexDeQuestoes).css("display", "inline");
 
       if(IndexDeQuestoes >= arrayQuestoes.length - 1) {
         $("#next").css("display", "none");
       }
 
       if($("#prev").css("display") == "none") {
-        $("#prev").css("display", "block");
+        $("#prev").css("display", "inline");
       }
 
       return IndexDeQuestoes;
@@ -173,6 +182,22 @@
         }
       }
       return score;
+    }
+
+    function countdown() {
+      var time = setInterval(function () {
+         if(count<2) {
+           clearInterval(time);
+         }
+         count--;
+         if(segundos > 0) {
+           segundos--;
+         }else{
+           minutos--;
+           segundos = 60;
+         }
+         $("#timer").html(minutos+":"+segundos);
+      }, 1000);
     }
   </script>
 </html>
