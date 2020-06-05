@@ -5,29 +5,3 @@
 .d-block {
   display: block;
 }
-
-.Questao {
-  border-bottom: 4px solid black;
-  text-align: center;
-  margin-left: 60px;
-  margin-right: 60px;
-  display: block;
-}
-
-.Opcao {
-  border: 4px solid black;
-  background-color: blue;
-  display: inline-block;
-  margin: 60px;
-  padding: 40px;
-}
-
-#timer {
-
-}
-
-#Controlos {
-  position: relative;
-  left: 500px;
-  display: inline;
-}
