@@ -39,26 +39,26 @@ function fillQuestoes(arrayQuestoes) {
   for(i=0; i<tam; i++) {
     $("#Test").append("<div id='Questao"+i+"'></div>");
 
-    $("#Questao"+i).append("<div class='Questao'>"+arrayQuestoes[i].pergunta+"</div>");
+    $("#Questao"+i).append("<h1 class='Questao'>"+arrayQuestoes[i].pergunta+"</h1>");
     $("#Questao"+i).css("display", "none");
 
     if(arrayQuestoes[i].tipo == "escolha unica") {
       for(j=0; j<4; j++) {
-        $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+        $("#Questao"+i).append("<h2 id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</h2>");
         $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
       }
     }
 
     if(arrayQuestoes[i].tipo == "escolha multipla") {
       for(j=0; j<4; j++) {
-        $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+        $("#Questao"+i).append("<h2 id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</h2>");
         $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
       }
     }
 
     if(arrayQuestoes[i].tipo == "V ou F") {
       for(j=0; j<2; j++) {
-        $("#Questao"+i).append("<div id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</div>");
+        $("#Questao"+i).append("<h2 id='Opcao_"+j+"' class='Opcao'>"+arrayQuestoes[i].opcoes[j]+"</h2>");
         $("#Questao"+i).children("#Opcao_"+j).bind("click", opcaoSelecionada);
       }
     }
@@ -104,7 +104,7 @@ function opcaoSelecionada() {
   }
   var select = $(this);
   checkResposta(select);
-  alert(score);        //Comando para testar se a funcao esta a contar em tempo real
+  //alert(score);        Comando para testar se a funcao esta a contar em tempo real
   return nrDeSelecionada;
 }
 
@@ -125,7 +125,7 @@ function perguntaAnterior() {
 
 function perguntaSeguinte() {
   $("#Questao"+IndexDeQuestoes).children(".Opcao").unbind("click");
-  $("#Questao"+IndexDeQuestoes).children(".Opcao").attr("class", "");
+  $("#Questao"+IndexDeQuestoes).children(".Opcao").attr("class", "Opcoes");
   $("#Questao"+IndexDeQuestoes).children("input").attr("readonly", true);
   $("#Questao"+IndexDeQuestoes).css("display", "none");
 
@@ -149,12 +149,27 @@ function perguntaSeguinte() {
 function acabarTeste() {
   verifSeRespondeu();
   var nrDeRespondidas = 0;
+  var nrDeRespostasCertas = 0;
   for(i=0; i<arrayQuestoes.length; i++) {
     if($("#Questao"+i).hasClass("respondido")) {
       nrDeRespondidas++;
     }
+    if(arrayQuestoes[i].tipo == "escolha multipla") {
+      for(j=0; j<4; j++) {
+        if($("#Questao"+i).children("#Opcao_"+j).attr("value") == "respondidoCorretamente") {
+          nrDeRespostasCertas++;
+          break;
+        }
+      }
+    }else {
+      if($("#Questao"+i).attr("value") == "respondidoCorretamente") {
+        nrDeRespostasCertas++;
+      }
+    }
   }
-  alert(score +" "+ nrDeRespondidas);
+  var nrdeNaoRespondidas = arrayQuestoes.length - nrDeRespondidas;
+  var nrDeRespostasErr = arrayQuestoes.length - nrdeNaoRespondidas - nrDeRespostasCertas;
+  alert("Score: "+score+"\nNrdeNaoRespondidas "+nrdeNaoRespondidas+"\nNrDeRespostasCertas: "+nrDeRespostasCertas+"\nNrDeRespostasErradas: "+nrDeRespostasErr);
   $("#finish").css("display", "none");
 }
 
