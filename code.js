@@ -26,6 +26,7 @@ function start() {
   xmlhttp.send();
 
   $("#start").css("display", "none");
+  $("#Controlos").css("display", "flex");
   $("#prev").css("display", "none");
 
   countdown();
@@ -37,7 +38,7 @@ function fillQuestoes(arrayQuestoes) {
   var teste = $("#Test");
   let tam = arrayQuestoes.length;
   for(i=0; i<tam; i++) {
-    $("#Test").append("<div id='Questao"+i+"'></div>");
+    $("#Test").append("<div id='Questao"+i+"' class='Quest'></div>");
 
     $("#Questao"+i).append("<h1 class='Questao'>"+arrayQuestoes[i].pergunta+"</h1>");
     $("#Questao"+i).css("display", "none");

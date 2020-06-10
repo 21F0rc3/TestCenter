@@ -1,14 +1,88 @@
+@keyframes animSeta {
+  0% {content:url("animationSeta/seta1.png");}
+  55% {content:url("animationSeta/seta2.png");}
+  100% {content:url("animationSeta/seta3.png");}
+}
+
+@keyframes animStart {
+  0% {content:url("animationStart/start1.png");}
+  20% {content:url("animationStart/start2.png");}
+  40% {content:url("animationStart/start3.png");}
+  60% {content:url("animationStart/start4.png");}
+  80% {content:url("animationStart/start5.png");}
+  100% {content:url("animationStart/start6.png");}
+}
+
+body {
+  background-image: url("back1.png");
+}
+
+#Test {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .Questao {
-  position: fixed;
-  left: 500px;
-  top: 100px;
+  text-align: center;
+  border-bottom: 3px dashed black;
+  color: white;
 }
 
 .Opcao, .Opcoes {
-  position: relative;
-  top: 200px;
-  left: 200px;
   display: inline-block;
   padding: 60px;
   margin: 40px;
+  border: 3px dashed black;
+  background-color: white;
+}
+
+#timer {
+  color: white;
+}
+
+#Controlos {
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#finish {
+  padding: 6px;
+  border: 1px solid black;
+  background-color: white;
+}
+
+#start {
+  height: 600px;
+  content: url("start.png");
+}
+
+#prev {
+  transform: rotateY(180deg);
+  height: 100px;
+  content:url("seta.png");
+}
+
+#prev:hover {
+  animation-name: animSeta;
+  animation-duration: 1s;
+  content:url("animationSeta/seta3.png");
+}
+
+#next {
+  height: 100px;
+  content:url("seta.png");
+}
+
+#next:hover {
+  animation-name: animSeta;
+  animation-duration: 1s;
+  content:url("animationSeta/seta3.png");
+}
+
+#start:hover {
+  animation-name: animStart;
+  animation-duration: 3s;
+  content:url("animationStart/start6.png");
 }
