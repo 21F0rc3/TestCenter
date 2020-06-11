@@ -1,7 +1,7 @@
 var IndexDeQuestoes = 0;
 var arrayQuestoes;
 
-var minutos = 5;
+var minutos = 1;
 var segundos = 0;
 
 var nrDeSelecionada = 0;
@@ -65,7 +65,7 @@ function fillQuestoes(arrayQuestoes) {
     }
 
     if(arrayQuestoes[i].tipo == "completar") {
-      $("#Questao"+i).append("<input type='text' value=''>");
+      $("#Questao"+i).append("<input class='completar' type='text' value=''>");
       $("#Questao"+i).children("input").change(checkTexto);
   }
   $("#Questao0").css("display", "block");
@@ -170,7 +170,11 @@ function acabarTeste() {
   }
   var nrdeNaoRespondidas = arrayQuestoes.length - nrDeRespondidas;
   var nrDeRespostasErr = arrayQuestoes.length - nrdeNaoRespondidas - nrDeRespostasCertas;
-  alert("Score: "+score+"\nNrdeNaoRespondidas "+nrdeNaoRespondidas+"\nNrDeRespostasCertas: "+nrDeRespostasCertas+"\nNrDeRespostasErradas: "+nrDeRespostasErr);
+  $(".modal-title").append("Resultados");
+  $(".modal-body").append("<div>Score: "+score+"</div>");
+  $(".modal-body").append("<div>Respostas não respondidas: "+nrdeNaoRespondidas+"</div>");
+  $(".modal-body").append("<div>Respostas certas: "+nrDeRespostasCertas+"</div>");
+  $(".modal-body").append("<div>Respostas erradas: "+nrDeRespostasErr+"</div>");
   $("#finish").css("display", "none");
 }
 
@@ -221,7 +225,7 @@ function checkResposta(select) {
 function countdown() {
   var time = setInterval(function () {
      if(minutos == 0 && segundos == 0) {
-       alert("Acabou o tempo");
+       $(".modal-title").append("Acabou o tempo!");
        acabarTeste();
        clearInterval(time);
      }else if(segundos > 0) {

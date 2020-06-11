@@ -37,6 +37,10 @@ body {
   background-color: white;
 }
 
+.completar {
+  margin: 40px;
+}
+
 #timer {
   color: white;
 }
@@ -53,9 +57,16 @@ body {
   background-color: white;
 }
 
+#finish:hover {
+  background-color: gray;
+}
+
 #start {
-  height: 600px;
+  height: 500px;
   content: url("start.png");
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #prev {
