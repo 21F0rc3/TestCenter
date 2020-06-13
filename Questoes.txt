@@ -1,9 +1,9 @@
 [
   {
-   "pergunta": "Quem é o melhor jogador de futebol?",
+   "pergunta": "Meu avô têm 4 filhos. Cada filho tem 4 filhos. Quantos primos eu tenho?",
    "tipo": "escolha unica",
-   "opcoes": ["Messi", "Neymar", "C. Ronaldo", "Pele"],
-   "resposta": "C. Ronaldo"
+   "opcoes": ["16", "12", "15"],
+   "resposta": "12"
   },
   {
    "pergunta": "Qual o numero que ao quadrado da 4?",
@@ -12,15 +12,39 @@
    "resposta": ["-2","2"]
   },
   {
-   "pergunta": "O Porto e o melhor clube de sempre?",
+   "pergunta": "Eu falo, mas não tenho boca. Eu ouço, mas não tenho ouvidos. Não tenho corpo, mas vivo com o vento. Quem sou eu?",
+   "tipo": "completar",
+   "opcoes": "",
+   "resposta": "Eco"
+  },
+  {
+   "pergunta": "1694268‬ é multiplo de 3?",
+   "tipo": "V ou F",
+   "opcoes": ["Sim", "Não"],
+   "resposta": ["Sim"]
+  },
+  {
+   "pergunta": "Onde é que têm dois sete, dois zero?",
+   "tipo": "escolha unica",
+   "opcoes": ["7700", "2720", "2700", "7720"],
+   "resposta": "2700"
+  },
+  {
+   "pergunta": "Uma árvore nasceu na fronteira entre Brasil e Chile. A qual pais pertenca a arvore?",
+   "tipo": "escolha multipla",
+   "opcoes": ["Brasil", "Chile", "Nenhum dos dois"],
+   "resposta": ["Brasil", "Chile"]
+  },
+  {
+   "pergunta": "O que é que quanto mais se aumenta menos se vê?",
+   "tipo": "completar",
+   "opcoes": "",
+   "resposta": "Escuridão"
+  },
+  {
+   "pergunta": "Este TestCenter merece o 20?",
    "tipo": "V ou F",
    "opcoes": ["Sim", "Nao"],
    "resposta": "Sim"
-  },
-  {
-   "pergunta": "O rato roi a ",
-   "tipo": "completar",
-   "opcoes": "",
-   "resposta": "rolha"
   }
 ]
